@@ -6,7 +6,7 @@ import numpy as np
 
 
 print("Data training module loaded successfully.")
-combined_data = dp.combined_data
+combined_data = dp.combined_data['embedding']
 x = np.stack(combined_data['embedding'].values)
 y = combined_data['Movement'].values
 

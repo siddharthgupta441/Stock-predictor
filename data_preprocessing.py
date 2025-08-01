@@ -7,13 +7,15 @@ from yaspin import yaspin
 tokenizer = AutoTokenizer.from_pretrained("yiyanghkust/finbert-tone")
 model = AutoModel.from_pretrained("yiyanghkust/finbert-tone")
 
-stock_name = input("Enter the stock name: ")
+#stock_name = input("Enter the stock name: ")
+stock_name = 'microsoft stock'
 with yaspin(text="Loading news data...", color="cyan") as spinner:
     news_data = news_data(stock_name)
     if not news_data.empty:
         spinner.ok("✅")
 
-stock_code = input("Enter the stock code: ")
+#stock_code = input("Enter the stock code: ")
+stock_code = 'MSFT'
 with yaspin(text="Loading yfinance data...", color="cyan") as spinner:
     stock_df = yfinance_stock_price(stock_code)
     if not stock_df.empty:
