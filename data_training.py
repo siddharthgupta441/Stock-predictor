@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix
 import numpy as np
 
+
 print("Data training module loaded successfully.")
 combined_data = dp.combined_data
 x = np.stack(combined_data['embedding'].values)

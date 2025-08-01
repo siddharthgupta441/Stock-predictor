@@ -35,5 +35,5 @@ def get_embedding(text):
     return outputs.last_hidden_state.mean(dim=1).squeeze().numpy()
 
 combined_data['embedding'] = combined_data['Headline'].apply(get_embedding)
-#print(combined_data[['Date', 'Headline', 'embedding', 'Movement']].head())
+print(combined_data.head())
 print("Data preprocessing module loaded successfully.")

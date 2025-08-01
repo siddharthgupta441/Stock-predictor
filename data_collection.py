@@ -2,9 +2,10 @@ import yfinance as yf
 import pandas as pd
 from newsapi import NewsApiClient
 from datetime import date as d, timedelta
+import dotenv
 
 def news_data(query):
-    api = NewsApiClient(api_key='af121ff40d794d40a74758df039f9bdb')
+    api = dotenv.load_dotenv()
     from_date = d.today() - timedelta(days=30)
     to_date = d.today()
 

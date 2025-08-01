@@ -1,29 +1,23 @@
-import joblib
-import streamlit as st
-import joblib
-import numpy as np
-from data_training import get_embedding
+# import joblib
+# import streamlit as st
+# import joblib
+# import numpy as np
+# from data_training import get_embedding
 
-joblib.dump('stock_prediction_agent/model/clf.pkl')
+# joblib.dump('stock_prediction_agent/model/clf.pkl')
 
-model = joblib.load("model/clf.pkl")
+# model = joblib.load("model/clf.pkl")
+import sys
+import time
 
-st.set_page_config(page_title="Stock Movement Predictor", layout="centered")
-st.title("News Based Stock Movement Prediction")
+def spinning_cursor():
+    while True:
+        for cursor in '|/-\\':
+            yield cursor
 
-st.markdown("Enter a news headline and get prediction on stock price movement over the next few days.")
-
-headline = st.text_area("Enter News Headline")
-
-if st.button("Predict"):
-    if headline.strip() == "":
-        st.warning("Please enter a headline.")
-    else:
-        embedding = get_embedding(headline).reshape(1, -1)
-        prediction = model.predict(embedding)[0]
-        proba = model.predict_proba(embedding)[0][prediction]
-
-        if prediction == 1:
-            st.success(f"Prediction: Price Likely to go UP (Confidence: {proba:.2f})")
-        else:
-            st.error(f"Prediction: Price Likely to go DOWN (Confidence: {proba:.2f})")
+spinner = spinning_cursor()
+for _ in range(50):
+    sys.stdout.write(next(spinner))
+    sys.stdout.flush()
+    time.sleep(0.1)
+    sys.stdout.write('\b')

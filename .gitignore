@@ -1,2 +1,4 @@
+.env
+stock_prediction_agent/.env
 lib/
 stock_prediction_agent/lib
