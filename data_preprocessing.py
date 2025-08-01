@@ -25,12 +25,14 @@ if stock_df is not None:
     stock_df.reset_index(inplace=True)
     stock_df['Date'] = pd.to_datetime(stock_df["Date"]).dt.date
 
-combined_data = pd.merge(stock_df, news_data[['Date', 'Headline']], on='Date')
-combined_data.sort_values(by='Date', inplace=True)
-combined_data['Next_Close'] = combined_data['Close'].shift(-1)
-combined_data['Movement'] = (combined_data['Next_Close'] > combined_data['Close']).astype(int)
-combined_data.dropna(inplace=True)
-combined_data[['Date', 'Headline', 'Close', 'Next_Close', 'Movement']].head()
+def combined_data_fun():
+    combined_data = pd.merge(stock_df, news_data[['Date', 'Headline']], on='Date')
+    combined_data.sort_values(by='Date', inplace=True)
+    combined_data['Next_Close'] = combined_data['Close'].shift(-1)
+    combined_data['Movement'] = (combined_data['Next_Close'] > combined_data['Close']).astype(int)
+    combined_data.dropna(inplace=True)
+    combined_data[['Date', 'Headline', 'Close', 'Next_Close', 'Movement']].head()
+    return combined_data
 
 def get_embedding(text):
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True, max_length=64)
@@ -38,6 +40,4 @@ def get_embedding(text):
         outputs = model(**inputs)
     return outputs.last_hidden_state.mean(dim=1).squeeze().numpy()
 
-combined_data['embedding'] = combined_data['Headline'].apply(get_embedding)
-print(combined_data.head())
-print("Data preprocessing module loaded successfully.")
+#combined_data['embedding'] = combined_data['Headline'].apply(get_embedding)
