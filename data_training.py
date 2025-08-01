@@ -16,5 +16,5 @@ clf = LogisticRegression(max_iter=1000)
 clf.fit(x_train, y_train)
 
 y_pred = clf.predict(x_test)
-# print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-# print("Classification Report:\n", classification_report(y_test, y_pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("Classification Report:\n", classification_report(y_test, y_pred))

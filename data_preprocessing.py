@@ -1,26 +1,28 @@
 from data_collection import news_data, yfinance_stock_price
-import re
 import pandas as pd
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 from transformers import AutoTokenizer, AutoModel
 import torch
-
-stopword = set(stopwords.words('english'))
+from yaspin import yaspin
 
 tokenizer = AutoTokenizer.from_pretrained("yiyanghkust/finbert-tone")
 model = AutoModel.from_pretrained("yiyanghkust/finbert-tone")
 
-news_data = news_data('microsoft stock')
-#news_data = preprocess_news_data(news_data)
+stock_name = input("Enter the stock name: ")
+with yaspin(text="Loading news data...", color="cyan") as spinner:
+    news_data = news_data(stock_name)
+    if not news_data.empty:
+        spinner.ok("✅")
 
-stock_df = yfinance_stock_price('MSFT')
+stock_code = input("Enter the stock code: ")
+with yaspin(text="Loading yfinance data...", color="cyan") as spinner:
+    stock_df = yfinance_stock_price(stock_code)
+    if not stock_df.empty:
+        spinner.ok("✅")
+
 if stock_df is not None:
-    #print("Stock Data Shape:", type(stock_df))
     stock_df.reset_index(inplace=True)
     stock_df['Date'] = pd.to_datetime(stock_df["Date"]).dt.date
 
-#print(f"new data: {type(news_data)}, stock data: {type(stock_df)}")
 combined_data = pd.merge(stock_df, news_data[['Date', 'Headline']], on='Date')
 combined_data.sort_values(by='Date', inplace=True)
 combined_data['Next_Close'] = combined_data['Close'].shift(-1)
